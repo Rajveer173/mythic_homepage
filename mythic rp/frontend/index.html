@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Frontend: How to Play (Vue)</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+      
+      :root {
+        --bg-primary: #0a0714;
+        --bg-secondary: #1a0f2e;
+        --accent-primary: #6366f1;
+        --accent-secondary: #8b5cf6;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --border-subtle: rgba(255, 255, 255, 0.08);
+        --border-accent: rgba(99, 102, 241, 0.3);
+        --glow-primary: rgba(99, 102, 241, 0.4);
+      }
+      
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+        background-attachment: fixed;
+        color: var(--text-primary);
+        line-height: 1.6;
+        padding: 24px;
+        min-height: 100vh;
+      }
+      
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: -1;
+      }
+      
+      .topnav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(20px);
+        padding: 16px 24px;
+        border-radius: 16px;
+        border: 1px solid var(--border-subtle);
+        margin-bottom: 32px;
+      }
+      
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 16px;
+        box-shadow: 0 6px 24px var(--glow-primary);
+      }
+      
+      nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      
+      nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      nav a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 10px;
+        z-index: -1;
+      }
+      
+      nav a:hover {
+        color: var(--text-primary);
+        transform: translateY(-1px);
+      }
+      
+      nav a:hover::before {
+        opacity: 0.1;
+      }
+      
+      h1 {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 24px;
+        background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid var(--border-subtle);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 16px;
+        backdrop-filter: blur(20px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-accent);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3), 0 0 40px var(--glow-primary);
+      }
+      
+      .card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--text-primary);
+      }
+      
+      .card p {
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+      }
+      
+      @media (max-width: 768px) {
+        .topnav {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        
+        nav {
+          width: 100%;
+        }
+        
+        h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topnav">
+        <div class="brand"><div class="logo">M</div><div style="margin-left:8px">Mythic RP<br><small style="color:#b3a6bf">How to Play</small></div></div>
+        <nav>
+          <a href="#">Home</a>
+          <a href="https://www.youtube.com/@gta5mythicrp03" target="_blank">YouTube</a>
+          <a href="https://gta5mythicrp.com/forum/" target="_blank">Forum</a>
+          <a href="https://discord.gg/7nMsHbZGx6" target="_blank">Discord</a>
+        </nav>
+      </header>
+
+      <main style="margin-top:18px">
+        <h1>How to Play — Mythic RP (frontend demo)</h1>
+        <div v-if="loading">Loading...</div>
+        <div v-else>
+          <div v-for="s in steps" :key="s.number" class="card">
+            <h3>{{ s.number }}. {{ s.title }}</h3>
+            <p>{{ s.description }}</p>
+            <div v-if="s.server">Server: <strong>{{ s.server }}</strong></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      Vue.createApp({
+        data(){return {steps:[],loading:true}},
+        async created(){
+          try{const r=await fetch('/api/steps');this.steps=await r.json()}catch(e){console.error(e)}finally{this.loading=false}
+        }
+      }).mount('#app')
+    </script>
+  </body>
+</html>
